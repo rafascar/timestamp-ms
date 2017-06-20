@@ -31,11 +31,11 @@ function getTimestamp(date) {
   
   // If its a number (unix), convert to natural language
   if(!isNaN(unix)) {
-    natural = new Date(unix).toUTCString();
+    natural = new Date(unix*1000).toUTCString();
   }
   // If its a string, check for natural language
   else if(new Date(natural) != "Invalid Date") {
-    unix = new Date(natural).getTime();
+    unix = new Date(natural).getTime() / 1000;
     natural = new Date(natural).toUTCString();
   }
   // If its not a valid date, return object with null
