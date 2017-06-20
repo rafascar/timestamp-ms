@@ -21,3 +21,31 @@ var listener = app.listen(process.env.PORT, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
 
+app.get("/:date", function (request, response) {
+  response.send(getTimestamp(request.params.date))
+});
+
+function getTimestamp(date) {
+  var unix = Number(date);
+  var natural = new Date(date);
+  
+  // If its a number (unix), convert to natural language
+  if(!isNaN(unix)) {
+    natural = new Date(unix).toUTCString();
+  }
+  // If its a string, check for natural language
+  else if(new Date(natural) != "Invalid Date") {
+    unix = new Date(natural).getTime();
+    natural = new Date(natural).toUTCString();
+  }
+  // If its not a valid date, return object with null
+  else {
+    unix = null;
+    natural = null;
+  }
+   
+  return {
+    unix: unix,
+    natural: natural
+  }
+}
